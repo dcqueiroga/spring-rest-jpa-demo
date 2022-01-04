@@ -1,22 +1,19 @@
-package com.example.springrestjpa.application;
+package com.example.springrestjpa.application.rest;
 
 import com.example.springrestjpa.domain.Employee;
-import com.example.springrestjpa.domain.EmployeeService;
-import io.swagger.models.Response;
+import com.example.springrestjpa.domain.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @Slf4j
 @RestController
-@RequestMapping(path = {"/api/v1/employees"}, produces = APPLICATION_JSON_VALUE)
+@RequestMapping(path = {"/api/v1/employees"}, produces = MediaType.APPLICATION_JSON_VALUE)
 public class EmployeeController {
 
     private static final String NEW_EMPLOYEE_LOG = "New employee was created: {}";

@@ -1,4 +1,4 @@
-package com.example.springrestjpa.infrastructure;
+package com.example.springrestjpa.infrastructure.configuration;
 
 import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;

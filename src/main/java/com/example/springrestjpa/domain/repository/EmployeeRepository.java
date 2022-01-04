@@ -1,4 +1,4 @@
-package com.example.springrestjpa.infrastructure;
+package com.example.springrestjpa.domain.repository;
 
 import com.example.springrestjpa.domain.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,6 @@
-package com.example.springrestjpa.domain;
+package com.example.springrestjpa.domain.service;
+
+import com.example.springrestjpa.domain.Employee;
 
 import java.util.List;
 

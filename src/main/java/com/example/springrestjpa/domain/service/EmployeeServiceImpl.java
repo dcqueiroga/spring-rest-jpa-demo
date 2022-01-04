@@ -1,6 +1,7 @@
-package com.example.springrestjpa.domain;
+package com.example.springrestjpa.domain.service;
 
-import com.example.springrestjpa.infrastructure.EmployeeRepository;
+import com.example.springrestjpa.domain.Employee;
+import com.example.springrestjpa.domain.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
