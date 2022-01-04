@@ -2,44 +2,71 @@ package com.example.springrestjpa.application;
 
 import com.example.springrestjpa.domain.Employee;
 import com.example.springrestjpa.domain.EmployeeService;
+import io.swagger.models.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
+
+@Slf4j
 @RestController
+@RequestMapping(path = {"/api/v1/employees"}, produces = APPLICATION_JSON_VALUE)
 public class EmployeeController {
+
+    private static final String NEW_EMPLOYEE_LOG = "New employee was created: {}";
+    private static final String EMPLOYEE_DELETED_LOG = "Employee id {} was deleted.";
+    private static final String EMPLOYEE_UPDATED_LOG = "Employee id {} was updated.";
 
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping("/employees")
-    public List<Employee> getEmployees() {
-        return employeeService.retrieveEmployees();
+    @GetMapping
+    public ResponseEntity<List<Employee>> getEmployees() {
+        return ResponseEntity.ok(employeeService.retrieveEmployees());
     }
 
-    @GetMapping("/employees/{employeeId}")
-    public Employee getEmployee(@PathVariable(name = "employeeId") Long employeeId) {
-        return employeeService.getEmployee(employeeId);
-    }
-
-    @PostMapping("/employees")
-    public void saveEmployee(@RequestBody Employee employee) {
-        employeeService.createEmployee(employee);
-    }
-
-    @PutMapping("/employees/{employeeId}")
-    public void updateEmployee(@PathVariable(name = "employeeId") Long employeeId,
-                               @RequestBody Employee employee) {
-        Employee empl = employeeService.getEmployee(employeeId);
-        if (empl != null) {
-            employee.setId(empl.getId());
-            employeeService.editEmployee(employee);
+    @GetMapping(path = "/{employeeId}")
+    public ResponseEntity<Employee> getEmployee(@PathVariable(name = "employeeId") Long employeeId) {
+        Employee employee = employeeService.getEmployee(employeeId);
+        if (employee == null) {
+            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(employee);
     }
 
-    @DeleteMapping("/employees/{employeeId}")
-    public void deleteEmployee(@PathVariable(name = "employeeId") Long employeeId) {
+    @PostMapping
+    public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
+        Employee createdEmployee = employeeService.createEmployee(employee);
+        log.info(NEW_EMPLOYEE_LOG, createdEmployee.toString());
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdEmployee);
+    }
+
+    @PutMapping(path = "/{employeeId}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable(name = "employeeId") Long employeeId,
+                                   @RequestBody Employee employee) {
+        Employee empl = employeeService.getEmployee(employeeId);
+        if (empl == null) {
+            ResponseEntity.notFound().build();
+        }
+
+        employee.setId(empl.getId());
+        Employee updatedEmployee = employeeService.editEmployee(employee);
+
+        log.info(EMPLOYEE_UPDATED_LOG, employeeId);
+
+        return ResponseEntity.ok(updatedEmployee);
+    }
+
+    @DeleteMapping(path = "/{employeeId}")
+    public ResponseEntity deleteEmployee(@PathVariable(name = "employeeId") Long employeeId) {
         employeeService.deleteEmployee(employeeId);
+        log.info(EMPLOYEE_DELETED_LOG, employeeId);
+        return ResponseEntity.ok().build();
     }
 }

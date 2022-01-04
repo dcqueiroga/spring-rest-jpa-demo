@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -24,14 +23,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void createEmployee(Employee employee) {
-        employeeRepository.save(employee);
+    public Employee createEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
 
     //TODO: ajustar removendo a logica do controller
     @Override
-    public void editEmployee(Employee employee) {
-        employeeRepository.save(employee);
+    public Employee editEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
 
     @Override
