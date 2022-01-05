@@ -1,6 +1,6 @@
 package com.example.springrestjpa.application.rest;
 
-import com.example.springrestjpa.application.converter.EmployeeConverter;
+import com.example.springrestjpa.application.dto.converter.EmployeeConverter;
 import com.example.springrestjpa.application.dto.EmployeeDTO;
 import com.example.springrestjpa.domain.Employee;
 import com.example.springrestjpa.domain.service.EmployeeService;
@@ -33,7 +33,6 @@ public class EmployeeController {
     @GetMapping
     public ResponseEntity<List<EmployeeDTO>> getEmployees() {
         List<Employee> results = employeeService.retrieveEmployees();
-
         return ResponseEntity.ok(results.parallelStream()
                 .map(employeeConverter::convertToDTO)
                 .collect(Collectors.toList()));
@@ -50,9 +49,7 @@ public class EmployeeController {
 
     @PostMapping
     public ResponseEntity<EmployeeDTO> saveEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
-        Employee employee = employeeConverter.convertToEntity(employeeDTO);
-        Employee createdEmployee = employeeService.createEmployee(employee);
-
+        Employee createdEmployee = employeeService.createEmployee(employeeConverter.convertToEntity(employeeDTO));
         log.info(NEW_EMPLOYEE_LOG, createdEmployee.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(employeeConverter.convertToDTO(createdEmployee));
     }

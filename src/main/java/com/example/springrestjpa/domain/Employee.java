@@ -4,21 +4,17 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "EMPLOYEE")
 @Data
-public class Employee {
+@Entity
+@Table(name = "tb_employee")
+public class Employee extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "NAME")
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "SALARY")
+    @Column(name = "salary")
     private Integer salary;
 
-    @Column(name = "DEPARTMENT")
+    @Column(name = "department")
     private String department;
 }

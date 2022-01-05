@@ -1,4 +1,4 @@
-package com.example.springrestjpa.application.converter;
+package com.example.springrestjpa.application.dto.converter;
 
 import com.example.springrestjpa.application.dto.EmployeeDTO;
 import com.example.springrestjpa.domain.Employee;
